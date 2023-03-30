@@ -409,25 +409,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const result = document.querySelector('.calculating__result span');
 
-  let sex = 'male',
+  let sex = localStorage.getItem('sex') || 'male',
     height,
     weight,
     age,
-    ratio = 1.375;
+    ratio = localStorage.getItem('ratio') || 1.375;
 
-  if (localStorage.getItem('sex')) {
-    sex = localStorage.getItem('sex');
-  } else {
-    sex = 'male';
-    localStorage.setItem('sex', 'male');
-  }
-
-  if (localStorage.getItem('ratio')) {
-    ratio = localStorage.getItem('ratio');
-  } else {
-    ratio = 1.375;
-    localStorage.setItem('ratio', 1.375);
-  }
+  !localStorage.getItem('sex') && localStorage.setItem('sex', 'male');
+  !localStorage.getItem('ratio') && localStorage.setItem('ratio', 1.375);
 
   function initLocalSettings(selector, activeClass) {
     const elements = document.querySelectorAll(selector);
