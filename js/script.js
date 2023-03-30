@@ -408,11 +408,46 @@ window.addEventListener('DOMContentLoaded', () => {
   // Calculator
 
   const result = document.querySelector('.calculating__result span');
+
   let sex = 'male',
     height,
     weight,
     age,
     ratio = 1.375;
+
+  if (localStorage.getItem('sex')) {
+    sex = localStorage.getItem('sex');
+  } else {
+    sex = 'male';
+    localStorage.setItem('sex', 'male');
+  }
+
+  if (localStorage.getItem('ratio')) {
+    ratio = localStorage.getItem('ratio');
+  } else {
+    ratio = 1.375;
+    localStorage.setItem('ratio', 1.375);
+  }
+
+  function initLocalSettings(selector, activeClass) {
+    const elements = document.querySelectorAll(selector);
+
+    elements.forEach(item => {
+      item.classList.remove(activeClass);
+      if (item.id === localStorage.getItem('sex')) {
+        item.classList.add(activeClass);
+      }
+      if (item.dataset.ratio === localStorage.getItem('ratio')) {
+        item.classList.add(activeClass);
+      }
+    });
+  }
+
+  initLocalSettings('#gender div', 'calculating__choose-item_active');
+  initLocalSettings(
+    '.calculating__choose_big div',
+    'calculating__choose-item_active'
+  );
 
   function calcTotal() {
     if (!sex || !height || !weight || !age || !ratio) {
@@ -435,15 +470,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
   calcTotal();
 
-  function getStaticInformation(parentSelector, activeClass) {
-    const elements = document.querySelectorAll(`${parentSelector} div`);
+  function getStaticInformation(selector, activeClass) {
+    const elements = document.querySelectorAll(selector);
 
     elements.forEach(elem => {
       elem.addEventListener('click', e => {
         if (e.target.dataset.ratio) {
           ratio = +e.target.dataset.ratio;
+          localStorage.setItem('ratio', +e.target.dataset.ratio);
         } else {
           sex = e.target.id;
+          localStorage.setItem('sex', e.target.id);
         }
 
         elements.forEach(item => item.classList.remove(activeClass));
@@ -453,9 +490,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  getStaticInformation('#gender', 'calculating__choose-item_active');
+  getStaticInformation('#gender div', 'calculating__choose-item_active');
   getStaticInformation(
-    '.calculating__choose_big',
+    '.calculating__choose_big div',
     'calculating__choose-item_active'
   );
 
