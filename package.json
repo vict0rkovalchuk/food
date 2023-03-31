@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/vict0rkovalchuk/food#readme",
   "devDependencies": {
-    "json-server": "^0.17.3"
+    "json-server": "^0.17.3",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.1"
   }
 }
